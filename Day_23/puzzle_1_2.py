@@ -7,29 +7,35 @@ cups={}
 
 next_label=max(cups_aux)+1
 
-for i in range(1000000):
-	if i<len(cups_aux):
-		cups[cups_aux[i]]=[]
-	else:
-		cups[next_label]=[]
-		next_label+=1
+for i in range(len(cups_aux)):
+	cups[cups_aux[i]]=[]
 
 keys=list(cups.keys())
 
-for i in range(1, 1000000-1):
+for i in range(1, len(cups_aux)-1):
 	cups[keys[i]]=[keys[i-1], keys[i+1]]
 cups[keys[0]]=[keys[-1], keys[1]]
 cups[keys[-1]]=[keys[-2], keys[0]]
 
+#next_cup=3
+#for i in range(len(cups)):
+#	print(next_cup, end="")
+#	next_cup=cups[next_cup][1]
+#print()
+
 current=cups_aux[0]
 
-for move in range(10000000):
+for move in range(100):
+	#next_cup=3
+	#for i in range(len(cups)):
+	#	print(next_cup, end="")
+	#	next_cup=cups[next_cup][1]
+	#print()
+
 	removed_cups=[]
 	#print(cups)
-	#breakpoint()
 	removed_cups=[cups[current][1], cups[cups[current][1]][1], cups[cups[cups[current][1]][1]][1]]
 	cups[current][1]=cups[cups[cups[cups[current][1]][1]][1]][1]
-	#breakpoint()
 	cups[cups[current][1]][0]=current
 
 	#print("Pick up: ", removed_cups)
@@ -37,9 +43,9 @@ for move in range(10000000):
 	destination=current-1
 
 	while True:
-		if destination not in cups or destination in removed_cups:
-			if destination-1 < 1:
-				destination=1000000
+		if destination in removed_cups or destination not in cups:
+			if destination-1 < min(cups):
+				destination=max(cups)
 			else:
 				destination-=1
 		else:
@@ -63,4 +69,8 @@ for move in range(10000000):
 
 	current=cups[current][1]
 
-print(cups[1][1]*cups[cups[1][1]][1])
+next_cup=3
+for i in range(len(cups)):
+	print(next_cup, end="")
+	next_cup=cups[next_cup][1]
+print()
